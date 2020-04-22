@@ -229,8 +229,8 @@ extension ScrollTabPageViewController: UIPageViewControllerDelegate {
             setupContentOffsetY(index: currentIndex, scroll: -scrollContentOffsetY)
         }
 
-        if currentIndex >= 0 && currentIndex < contentsView.tabButtons.count {
-            contentsView.updateCurrentIndex(index: currentIndex, animated: false)
+        if 0 <= currentIndex && currentIndex < contentsView.tabButtons.count {
+            contentsView.currentIndex.accept(currentIndex)
         }
     }
 }

@@ -15,7 +15,8 @@ import NSObject_Rx
 
 final class ContentsView: UIView {
 
-    var currentIndex: Int = 0
+    var currentIndex: BehaviorRelay<Int> = .init(value: 0)
+    
     var tabButtonPressedBlock: ((_ index: Int) -> Void)?
     var scrollDidChangedBlock: ((_ scroll: CGFloat, _ shouldScroll: Bool) -> Void)?
 
@@ -42,7 +43,7 @@ final class ContentsView: UIView {
             tabButtons.forEach { btn in
                 btn.rx.tap.subscribe(onNext: { [weak self] in
                     self?.tabButtonPressedBlock?(btn.tag)
-                    self?.updateCurrentIndex(index: btn.tag, animated: true)
+                    self?.currentIndex.accept(btn.tag)
                 }).disposed(by: rx.disposeBag)
             }
         }
@@ -70,17 +71,16 @@ private extension ContentsView {
         let onwer = self.instantiate()
         equalToParentConstraint(for: onwer)
         
-        
-    }
-}
-
-// MARK: - Internal
-
-extension ContentsView {
-
-    func updateCurrentIndex(index: Int, animated: Bool) {
-        tabButtons[currentIndex].backgroundColor = UIColor.white
-        tabButtons[index].backgroundColor = UIColor(red: 0.88, green: 1.0, blue: 0.87, alpha: 1.0)
-        currentIndex = index
+        currentIndex
+            .subscribe(onNext: { [weak self] in
+                // todo underbar color
+                
+                /// reset
+                self?.tabButtons.forEach { $0.backgroundColor = .white }
+                
+                /// set
+                self?.tabButtons[$0].backgroundColor = .lightGray
+            })
+            .disposed(by: rx.disposeBag)
     }
 }
