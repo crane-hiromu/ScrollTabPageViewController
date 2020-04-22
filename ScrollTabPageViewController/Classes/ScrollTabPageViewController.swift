@@ -2,8 +2,8 @@
 //  ScrollTabPageViewController.swift
 //  ScrollTabPageViewController
 //
-//  Created by EndouMari on 2015/12/04.
-//  Copyright © 2015年 EndouMari. All rights reserved.
+//  Created by h.crane on 2020/4/22.
+//  Copyright © 2020年 h.crane. All rights reserved.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ protocol ScrollTabPageViewControllerProtocol {
 
 class ScrollTabPageViewController: UIPageViewController {
 
-    private let contentViewHeihgt: CGFloat = 280.0
+    private let contentViewHeihgt: CGFloat = 344
     private let tabViewHeight: CGFloat = 44.0
     private var pageViewControllers: [UIViewController] = []
     private var contentsView: ContentsView!

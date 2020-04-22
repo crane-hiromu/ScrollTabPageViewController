@@ -9,8 +9,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContentsView" customModule="ScrollTabPageViewController" customModuleProvider="target">
             <connections>
-                <outlet property="containerView" destination="dlF-9e-tCn" id="xQh-9f-aFX"/>
-                <outlet property="contentView" destination="zIF-dC-TqL" id="CZ5-xp-oCd"/>
                 <outlet property="scrollView" destination="Kzl-ye-VGt" id="824-Ob-cD3"/>
                 <outletCollection property="tabButtons" destination="WRh-Ud-SCY" collectionClass="NSMutableArray" id="oOv-Ly-0Gw"/>
                 <outletCollection property="tabButtons" destination="E3f-DU-JbM" collectionClass="NSMutableArray" id="z2i-Wi-yMR"/>
@@ -18,30 +16,21 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="zIF-dC-TqL">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kzl-ye-VGt">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="374"/>
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlF-9e-tCn">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="236"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I9r-ec-NOx">
-                                    <rect key="frame" x="128" y="103" width="64" height="30"/>
-                                    <state key="normal" title="Touch"/>
-                                </button>
-                            </subviews>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="300"/>
                             <color key="backgroundColor" red="0.85098039219999999" green="0.96078431369999995" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
-                                <constraint firstItem="I9r-ec-NOx" firstAttribute="top" secondItem="dlF-9e-tCn" secondAttribute="top" constant="103" id="DVZ-e7-rQ1"/>
-                                <constraint firstAttribute="bottom" secondItem="I9r-ec-NOx" secondAttribute="bottom" constant="103" id="Lgq-ae-OJb"/>
-                                <constraint firstItem="I9r-ec-NOx" firstAttribute="leading" secondItem="dlF-9e-tCn" secondAttribute="leading" constant="128" id="Vka-tO-ZAG"/>
-                                <constraint firstAttribute="trailing" secondItem="I9r-ec-NOx" secondAttribute="trailing" constant="128" id="tv8-hb-yfE"/>
+                                <constraint firstAttribute="height" constant="300" id="gxR-JQ-j4a"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XOP-Fj-Yt4">
-                            <rect key="frame" x="0.0" y="236" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="300" width="320" height="44"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WRh-Ud-SCY">
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="44"/>
@@ -98,7 +87,7 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="186.95652173913044" y="263.16964285714283"/>
+            <point key="canvasLocation" x="5.7971014492753632" y="170.42410714285714"/>
         </view>
     </objects>
 </document>
