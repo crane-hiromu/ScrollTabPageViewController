@@ -11,15 +11,21 @@ import UIKit
 class ContentsView: UIView {
 
     var currentIndex: Int = 0
-    var tabButtonPressedBlock: ((index: Int) -> Void)?
-    var scrollDidChangedBlock: ((scroll: CGFloat, shouldScroll: Bool) -> Void)?
+    var tabButtonPressedBlock: ((_ index: Int) -> Void)?
+    var scrollDidChangedBlock: ((_ scroll: CGFloat, _ shouldScroll: Bool) -> Void)?
 
     private var scrollStart: CGFloat = 0.0
 
     @IBOutlet private weak var contentView: UIView!
     @IBOutlet private weak var containerView: UIView!
     @IBOutlet private weak var scrollView: UIScrollView!
-    @IBOutlet var tabButtons: [UIButton]!
+    @IBOutlet var tabButtons: [UIButton]! {
+        didSet {
+            tabButtons.forEach {
+                $0.addTarget(self, action: #selector(self.touchUpInside(button:)), for: .touchUpInside)
+            }
+        }
+    }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
@@ -34,7 +40,7 @@ class ContentsView: UIView {
     }
 
     private func sharedInit() {
-        NSBundle.mainBundle().loadNibNamed("ContentsView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("ContentsView", owner: self, options: nil)
         addSubview(contentView)
 
         setupConstraints()
@@ -50,13 +56,15 @@ class ContentsView: UIView {
 extension ContentsView {
 
     private func setupConstraints() {
-        let topConstraint = NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1.0, constant: 0.0)
+        guard let contentView = contentView else { return }
+        
+        let topConstraint = NSLayoutConstraint(item: contentView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0.0)
 
-        let bottomConstraint = NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1.0, constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: 0.0)
 
-        let leftConstraint = NSLayoutConstraint(item: contentView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1.0, constant: 0.0)
+        let leftConstraint = NSLayoutConstraint(item: contentView, attribute: .left, relatedBy: .equal, toItem: self, attribute: .left, multiplier: 1.0, constant: 0.0)
 
-        let rightConstraint = NSLayoutConstraint(item: contentView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1.0, constant: 0.0)
+        let rightConstraint = NSLayoutConstraint(item: contentView, attribute: .right, relatedBy: .equal, toItem: self, attribute: .right, multiplier: 1.0, constant: 0.0)
 
         let constraints = [topConstraint, bottomConstraint, leftConstraint, rightConstraint]
 
@@ -68,11 +76,11 @@ extension ContentsView {
         let red = Float(arc4random_uniform(255)) / 255.0
         let green = Float(arc4random_uniform(255)) / 255.0
         let blue = Float(arc4random_uniform(255)) / 255.0
-        return UIColor(colorLiteralRed: red, green: green, blue: blue, alpha: 1.0)
+        return UIColor(_colorLiteralRed: red, green: green, blue: blue, alpha: 1.0)
     }
 
     func updateCurrentIndex(index: Int, animated: Bool) {
-        tabButtons[currentIndex].backgroundColor = UIColor.whiteColor()
+        tabButtons[currentIndex].backgroundColor = UIColor.white
         tabButtons[index].backgroundColor = UIColor(red: 0.88, green: 1.0, blue: 0.87, alpha: 1.0)
         currentIndex = index
     }
@@ -83,13 +91,13 @@ extension ContentsView {
 
 extension ContentsView: UIScrollViewDelegate {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.y > 0.0 || frame.minY < 0.0 {
-            scrollDidChangedBlock?(scroll: scrollView.contentOffset.y, shouldScroll: true)
+            scrollDidChangedBlock?(scrollView.contentOffset.y, true)
             scrollView.contentOffset.y = 0.0
         } else {
             let scroll = scrollView.contentOffset.y - scrollStart
-            scrollDidChangedBlock?(scroll: scroll, shouldScroll: false)
+            scrollDidChangedBlock?(scroll, false)
             scrollStart = scrollView.contentOffset.y
         }
     }
@@ -99,13 +107,19 @@ extension ContentsView: UIScrollViewDelegate {
 // MARK: - IBAction
 
 extension ContentsView {
-
-    @IBAction private func touchButtonTouchUpInside(button: UIButton) {
-        containerView.backgroundColor = randomColor()
+    
+    @objc func touchUpInside(button: UIButton) {
+        tabButtonPressedBlock?(button.tag)
+        updateCurrentIndex(index: button.tag, animated: true)
     }
 
-    @IBAction private func tabButtonTouchUpInside(button: UIButton) {
-        tabButtonPressedBlock?(index: button.tag)
-        updateCurrentIndex(button.tag, animated: true)
-    }
+//
+//    @IBAction private func touchButtonTouchUpInside(button: UIButton) {
+//        containerView.backgroundColor = randomColor()
+//    }
+
+//    @IBAction private func tabButtonTouchUpInside(button: UIButton) {
+//        tabButtonPressedBlock?(button.tag)
+//        updateCurrentIndex(index: button.tag, animated: true)
+//    }
 }
