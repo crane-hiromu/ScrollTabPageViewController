@@ -38,16 +38,8 @@ final class ContentsView: UIView {
             }).disposed(by: rx.disposeBag)
         }
     }
-    @IBOutlet var tabButtons: [UIButton]! {
-        didSet {
-            tabButtons.forEach { btn in
-                btn.rx.tap.subscribe(onNext: { [weak self] in
-                    self?.tabButtonPressedBlock?(btn.tag)
-                    self?.currentIndex.accept(btn.tag)
-                }).disposed(by: rx.disposeBag)
-            }
-        }
-    }
+    
+    @IBOutlet var buttonWrapperView: UIStackView!
 
     // MARK: Initializer
 
@@ -60,8 +52,21 @@ final class ContentsView: UIView {
         super.init(coder: aDecoder)
         self.initialize()
     }
+    
+    func configure(models: [String]) {
+        models.enumerated().forEach { index, _ in
+            let btn = UIButton()
+            btn.tag = index
+            btn.setTitle("\(index)", for: UIControl.State())
+            btn.rx.tap.subscribe(onNext: { [weak self] _ in
+                self?.tabButtonPressedBlock?(btn.tag)
+                self?.currentIndex.accept(btn.tag)
+            }).disposed(by: rx.disposeBag)
+            
+            buttonWrapperView.addArrangedSubview(btn)
+        }
+    }
 }
-
 
 // MARK: - Private
 
@@ -76,10 +81,11 @@ private extension ContentsView {
                 // todo underbar color
                 
                 /// reset
-                self?.tabButtons.forEach { $0.backgroundColor = .white }
+                self?.buttonWrapperView.subviews.forEach { $0.backgroundColor = .white }
                 
                 /// set
-                self?.tabButtons[$0].backgroundColor = .lightGray
+                guard self?.buttonWrapperView.subviews.isEmpty == false else { return } // todo
+                self?.buttonWrapperView.subviews[$0].backgroundColor = .lightGray
             })
             .disposed(by: rx.disposeBag)
     }
